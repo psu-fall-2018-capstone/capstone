@@ -1,8 +1,9 @@
 <!doctype html>
 <title>Yo</title>
-<form method = "GET|POST">
+<form method = "POST">
    {% for i in range(N) %}
-   HERE: <input type = "text" name = "here{{i}}" />
+   <br>HERE: <input type = "text" name = "data{{i}}"/></br>
    {% endfor %}
+   <br><input type = "submit" name = "Submit"/></br>
 </form>
 <h3>{{ name }}</h3>

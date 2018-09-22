@@ -5,7 +5,6 @@ app = Flask(__name__)
 
 
 @app.route("/", methods=["GET", "POST"])
-def hello():
-    N = 5
-    name = request.args.get("here0", "")
-    return render_template("hello.html", name=name, N=N)
+def hello(N=5):
+    name = [request.form["data" + str(i)] for i in range(N)]
+    return render_template("hello.html", name="\n".join(name), N=N)
