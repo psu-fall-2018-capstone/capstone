@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+{% include 'header.html' %}
+
+	<body>
+		<h1>Add Exclusions</h1>
+
+		<form method = "POST" action="/adminjudgeassignment">
+
+			<div class="form-group">
+
+				<p>
+					Judge:
+					<select>
+						{% for x in judgeArray %}
+						<option value={{ loop.index0 }}>{{ x|e }}</option>
+						{% endfor %}
+					</select>
+					cannot judge project:
+					<select>
+						{% for x in projectArray %}
+						<option value={{ loop.index0 }}>{{ x|e }}</option>
+						{% endfor %}
+					</select>
+				</p>
+
+
+
+			</div>
+			<input class="btn btn-primary" type="submit" value="submit">
+		</form>
+	</body>
+
+</html>

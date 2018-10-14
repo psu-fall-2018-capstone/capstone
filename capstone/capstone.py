@@ -14,9 +14,6 @@ def hello(N=5):
 def admindashboard():
     return render_template("admindashboard.html",title="Admin Dashboard")
 
-@app.route("/adminjudgeassignment", methods=["GET", "POST"])
-def judgeassignment():
-    return "You are on the adminjudgeassignment"
 
 @app.route("/adminjudgesetup", methods=["GET", "POST"])
 def adminjudgesetup():  #this page does the file upload
@@ -27,6 +24,20 @@ def adminjudgesetup():  #this page does the file upload
         return render_template("adminjudgesetup.html",title="File Upload", submitted=True)
     else:
         return render_template("adminjudgesetup.html",title="File Upload", submitted=False)
+
+
+@app.route("/adminjudgeassignment", methods=["GET", "POST"])
+def judgeassignment():
+    exclusions = 1
+    judgeArrayList = ["Phillip", "Marko", "Tyler"]  #this will need to be populated dynamically
+    projectArrayList = ["CapstoneRedesign", "AnotherProject", "AnotherProject2"]
+    if request.method == 'POST':
+        exclusions = request.form['exclusions']
+        return render_template("adminjudgeassignment.html", title="Judge Assignment", numExclusions=exclusions, judgeArray=judgeArrayList , projectArray=projectArrayList)
+        
+    return render_template("adminjudgeassignment.html", title="Judge Assignment", numExclusions=exclusions,judgeArray=judgeArrayList, projectArray=projectArrayList)
+
+
 
 @app.route("/adminresults", methods=["GET", "POST"])
 def adminresults():
