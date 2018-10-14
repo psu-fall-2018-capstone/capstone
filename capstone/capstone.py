@@ -12,15 +12,29 @@ def hello(N=5):
 
 @app.route("/admindashboard", methods=["GET", "POST"])
 def admindashboard():
-    return "You are on the admindashboard"
+    return render_template("admindashboard.html",title="Admin Dashboard")
 
 @app.route("/adminjudgeassignment", methods=["GET", "POST"])
 def judgeassignment():
     return "You are on the adminjudgeassignment"
 
 @app.route("/adminjudgesetup", methods=["GET", "POST"])
-def adminjudgesetup():
-    return "You are on the adminjudgesetup"
+def adminjudgesetup():  #this page does the file upload
+    if request.method == 'POST':
+        myFile = request.form['myFile']
+        #fileHandle = open(myFile, "r")
+        #print(fileHandle.read())
+        return render_template("adminjudgesetup.html",title="File Upload", submitted=True)
+    else:
+        return render_template("adminjudgesetup.html",title="File Upload", submitted=False)
+
+@app.route("/adminresults", methods=["GET", "POST"])
+def adminresults():
+    return "You are on the adminresults"
+
+@app.route("/admintracking", methods=["GET", "POST"])
+def admintracking():
+    return "You are on the admintracking"
 
 @app.route("/adminpopularityresults", methods=["GET", "POST"])
 def adminpopularityresults():

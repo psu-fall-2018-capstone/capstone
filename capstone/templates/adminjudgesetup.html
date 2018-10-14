@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+{% include 'header.html' %}
+
+	<body>
+		<h1>Project/Judge File Upload</h1>
+		<form method = "POST" action="/adminjudgesetup">
+			<div class="form-group">
+				<input type="file" name="myFile">
+			</div>
+			<input class="btn btn-primary" type="submit" value="submit">
+		</form>
+
+		{% if submitted == True %}
+			<p>Submitted {{ fileName }} successfully.</p>
+			<a href="admindashboard">Back to Dashboard</a>
+		{% endif %}
+	</body>
+
+</html>
