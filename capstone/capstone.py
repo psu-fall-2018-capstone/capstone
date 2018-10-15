@@ -41,11 +41,11 @@ def judgeassignment():
 
 @app.route("/adminresults", methods=["GET", "POST"])
 def adminresults():
-    return "You are on the adminresults"
+    return render_template("adminresults.html", title="Admin Results")
 
 @app.route("/admintracking", methods=["GET", "POST"])
 def admintracking():
-    return "You are on the admintracking"
+    return render_template("admintracking.html", title="Admin Tracking")
 
 @app.route("/adminpopularityresults", methods=["GET", "POST"])
 def adminpopularityresults():
