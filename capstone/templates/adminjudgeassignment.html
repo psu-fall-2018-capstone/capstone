@@ -5,7 +5,7 @@
 	<body>
 		<h1>Add Exclusions</h1>
 
-		<form method = "POST" action="/adminjudgeassignment">
+		<form method = "POST" action="/adminjudgeassignment.html">
 
 			<div class="form-group">
 
@@ -13,13 +13,13 @@
 					Judge:
 					<select>
 						{% for x in judgeArray %}
-						<option value={{ loop.index0 }}>{{ x|e }}</option>
+							<option value={{ loop.index0 }}>{{ x|e }}</option>
 						{% endfor %}
 					</select>
 					cannot judge project:
 					<select>
 						{% for x in projectArray %}
-						<option value={{ loop.index0 }}>{{ x|e }}</option>
+							<option value={{ loop.index0 }}>{{ x|e }}</option>
 						{% endfor %}
 					</select>
 				</p>

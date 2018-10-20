@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request
 
+
 app = Flask(__name__)
 
 
@@ -11,6 +12,20 @@ app = Flask(__name__)
 #     #return render_template("hello.html", name="\n".join(name), N=N)
 
 @app.route("/", methods=["GET", "POST"])
+def hello():
+    return "Hello world!"
+
+
+
+@app.route("/judgevotingdashboard.html", methods=["GET", "POST"])
+def judgevotingdashboard():
+    judgeProjectList = ["Project1", "Project2", "Project3", "Project4", "Project5"]
+    if request.method == 'POST':
+        judgeProjectSelection = request.form['projectSelection']
+        print(judgeProjectSelection)
+        return "Test"
+    return render_template("judgevotingdashboard.html", title="Judge Voting Dashboard", judgeProjectArray=judgeProjectList)
+
 @app.route("/admindashboard", methods=["GET", "POST"])
 def admindashboard():
     return render_template("admindashboard.html",title="Admin Dashboard")
@@ -71,6 +86,7 @@ def adminprojectresults():
 @app.route("/adminprojecttracking", methods=["GET", "POST"])
 def adminprojecttracking():
     return "You are on the adminprojecttracking"
+
 
 if __name__ == "__main__":
     app.run()
