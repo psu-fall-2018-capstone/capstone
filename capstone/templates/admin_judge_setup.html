@@ -4,7 +4,7 @@
 
 	<body>
 		<h1>Project/Judge File Upload</h1>
-		<form method = "POST" action="/adminjudgesetup.html">
+		<form method = "POST" action="judge_setup">
 			<div class="form-group">
 				<input type="file" name="myFile">
 			</div>
@@ -13,7 +13,7 @@
 
 		{% if submitted == True %}
 			<p>Submitted {{ fileName }} successfully.</p>
-			<a href="admindashboard">Back to Dashboard</a>
+			<a href="dashboard">Back to Dashboard</a>
 		{% endif %}
 	</body>
 

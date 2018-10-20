@@ -4,7 +4,7 @@ from capstone.admin import admin_api
 
 app = Flask(__name__)
 
-app.register_blueprint(admin_api)
+app.register_blueprint(admin_api, url_prefix="/admin")
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -12,8 +12,8 @@ def hello():
     return "Hello world!"
 
 
-@app.route("/judgevotingdashboard.html", methods=["GET", "POST"])
-def judgevotingdashboard():
+@app.route("/judge_voting_dashboard", methods=["GET", "POST"])
+def judge_voting_dashboard():
     judgeProjectList = ["Project1",
                         "Project2",
                         "Project3",
@@ -23,6 +23,6 @@ def judgevotingdashboard():
         judgeProjectSelection = request.form['projectSelection']
         print(judgeProjectSelection)
         return "Test"
-    return render_template("judgevotingdashboard.html",
+    return render_template("judge_voting_dashboard.html",
                            title="Judge Voting Dashboard",
                            judgeProjectArray=judgeProjectList)
