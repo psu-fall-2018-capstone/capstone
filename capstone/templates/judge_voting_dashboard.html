@@ -5,12 +5,12 @@
 <body>
 	<h1>Judging Dashboard</h1>
 
-	<form method = "POST" action="judge_voting_dashboard">
+	<form method = "GET" action="voting">
 		<div class="form-group">
 			<div class="input-group">
 				<p>
 					Judge:
-					<select name=projectSelection>
+					<select name=project>
 						{% for x in judgeProjectArray %}
 								<option value={{ x|e }}>{{ x|e }}</option>
 						{% endfor %}
