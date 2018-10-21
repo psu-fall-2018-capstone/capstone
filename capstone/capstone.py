@@ -22,7 +22,12 @@ def judge_voting_dashboard():
     if request.method == 'POST':
         judgeProjectSelection = request.form['projectSelection']
         print(judgeProjectSelection)
-        return "Test"
+        return render_template("judge_project_voting.html", title="Judge Project voting", projectSelection=judgeProjectSelection)
     return render_template("judge_voting_dashboard.html",
                            title="Judge Voting Dashboard",
                            judgeProjectArray=judgeProjectList)
+
+
+@app.route("/judge_project_voting", methods=["GET", "POST"])
+def judge_project_voting():
+    return render_template("judge_project_voting.html", title="Judge Project voting", projectSelection="GENERIC")

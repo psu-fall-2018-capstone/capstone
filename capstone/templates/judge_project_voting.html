@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+{% include 'header.html' %}
+
+	<body>
+		<h1>Project: {{ projectSelection }}</h1>
+
+		<style type="text/css">
+				.tg  {border-collapse:collapse;border-spacing:0;}
+				.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 20px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+				.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 20px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:black;}
+				.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+				.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+		</style>
+
+		<table class="tg">
+		  <tr>
+		  	<!-- <th class="tg-0pky">Category</th> -->
+		    <th class="tg-c3ow">Question</th>
+		    <th class="tg-0pky">Score (5 is the greatest)</th>
+		  </tr>
+		  <tr>
+		    <!-- <td class="tg-0pky">Technical Content</td> -->
+		    <td class="tg-0pky">Did the team approach the problem in a way that is consistent with the disciplinary expertise of it's members?</td>
+		    <td class="tg-0pky">
+		    	<form>
+				    <label class="radio-inline">
+				      <input type="radio" name="q1" checked>5
+				    </label>
+				    <label class="radio-inline">
+				      <input type="radio" name="q1">4
+				    </label>
+				    <label class="radio-inline">
+				      <input type="radio" name="q1">3
+				    </label>
+				    <label class="radio-inline">
+				      <input type="radio" name="q1">2
+				    </label>
+				    <label class="radio-inline">
+				      <input type="radio" name="q1">1
+				    </label>
+  				</form>
+		    </td>
+		  </tr>
+		  <tr>
+		    <!-- <td class="tg-0pky">Technical Content</td> -->
+		    <td class="tg-0pky">Was appropriate modeling, analysis, and/or testing used to help identify and refine solutions?</td>
+		    <td class="tg-0pky">
+		    	<form>
+				    <label class="radio-inline">
+				      <input type="radio" name="q2" checked>5
+				    </label>
+				    <label class="radio-inline">
+				      <input type="radio" name="q2">4
+				    </label>
+				    <label class="radio-inline">
+				      <input type="radio" name="q2">3
+				    </label>
+				    <label class="radio-inline">
+				      <input type="radio" name="q2">2
+				    </label>
+				    <label class="radio-inline">
+				      <input type="radio" name="q2">1
+				    </label>
+ 				</form>
+		    </td>
+		  </tr>
+		  <tr>
+		    <!-- <td class="tg-0pky">Customer Satisfaction</td> -->
+		    <td class="tg-0pky">Was the team creative in their solution and/or approach to the problem?</td>
+		    <td class="tg-0pky">
+				<form>
+				    <label class="radio-inline">
+						<input type="radio" name="q3" checked>5
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="q3">4
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="q3">3
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="q3">2
+					</label>
+					<label class="radio-inline">
+						<input type="radio" name="q3">1
+					</label>
+			 	</form>
+		    </td>
+		  </tr>
+
+
+		  <tr>
+		    <!-- <td class="tg-0pky">Customer Satisfaction</td> -->
+		    <td class="tg-0pky">Does the project solution directly address the customer's stated objectives (is the solution appropriate)?</td>
+		    <td class="tg-0pky">
+					    	<form>
+							    <label class="radio-inline">
+							      <input type="radio" name="q4" checked>5
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q4">4
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q4">3
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q4">2
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q4">1
+							    </label>
+			 				</form>
+		    </td>
+		  </tr>
+
+
+		  <tr>
+		    <!-- <td class="tg-0pky">Customer Satisfaction</td> -->
+		    <td class="tg-0pky">Does the project solution meet/exceed customer's expectations (is the customer satisfied)?</td>
+		    <td class="tg-0pky">
+					    	<form>
+							    <label class="radio-inline">
+							      <input type="radio" name="q5" checked>5
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q5">4
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q5">3
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q5">2
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q5">1
+							    </label>
+			 				</form>
+		    </td>
+		  </tr>
+
+
+		  <tr>
+		    <!-- <td class="tg-0pky">Customer Satisfaction</td> -->
+		    <td class="tg-0pky">Did the team demonstrate improvements in product/process quality or cost/time savings?</td>
+		    <td class="tg-0pky">
+					    	<form>
+							    <label class="radio-inline">
+							      <input type="radio" name="q6" checked>5
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q6">4
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q6">3
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q6">2
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q6">1
+							    </label>
+			 				</form>
+		    </td>
+		  </tr>
+
+
+
+		  <tr>
+		    <!-- <td class="tg-0pky">Project Management</td> -->
+		    <td class="tg-0pky">Did the team acknowledge and stay within design constraints (e.g., budget, schedule, cost)?</td>
+		    <td class="tg-0pky">
+					    	<form>
+							    <label class="radio-inline">
+							      <input type="radio" name="q7" checked>5
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q7">4
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q7">3
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q7">2
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q7">1
+							    </label>
+			 				</form>
+		    </td>
+		  </tr>
+
+
+		  <tr>
+		    <!-- <td class="tg-0pky">Oral Presentation &amp;<br>Display</td> -->
+		    <td class="tg-0pky">Did the oral presentation clearly convey the necessary background, approach, results, and recommendations?</td>
+		    <td class="tg-0pky">
+					    	<form>
+							    <label class="radio-inline">
+							      <input type="radio" name="q8" checked>5
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q8">4
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q8">3
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q8">2
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q8">1
+							    </label>
+			 				</form>
+		    </td>
+		  </tr>
+
+
+		  <tr>
+		    <!-- <td class="tg-0pky">Oral Presentation &amp;<br>Display</td> -->
+		    <td class="tg-0pky">Did the team's display (poster, simulation, prototype, etc.) clearly describe the technical project and solution?</td>
+		    <td class="tg-0pky">
+					    	<form>
+							    <label class="radio-inline">
+							      <input type="radio" name="q9" checked>5
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q9">4
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q9">3
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q9">2
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q9">1
+							    </label>
+			 				</form>
+		    </td>
+		  </tr>
+
+
+		  <tr>
+		    <!-- <td class="tg-0pky">Intangibles</td> -->
+		    <td class="tg-0pky">Other noteworthy aspects not covered above that add value to the project quality and/or completeness?<br>(e.g., level of difficulty of project, new technology and/or innovative process or product, cool, etc.)</td>
+		    <td class="tg-0pky">
+					    	<form>
+							    <label class="radio-inline">
+							      <input type="radio" name="q10" checked>5
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q10">4
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q10">3
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q10">2
+							    </label>
+							    <label class="radio-inline">
+							      <input type="radio" name="q10">1
+							    </label>
+			 				</form>
+		    </td>
+		  </tr>
+
+
+		  <tr>
+		    <!-- <td class="tg-0pky">Comments:</td> -->
+		    <td class="tg-0pky"></td>
+		    <td class="tg-0pky"></td>
+		  </tr>
+</table>
+
+
+	</body>
+
+</html>
