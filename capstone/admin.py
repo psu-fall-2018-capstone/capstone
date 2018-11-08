@@ -13,6 +13,8 @@ def dashboard():
 @admin_api.route("/judge_setup", methods=["GET", "POST"])
 def judge_setup():  # this page does the file upload
     if request.method == 'POST':
+        table = request.files["myFile"]  # TODO: Check type.
+        table.save("table.xlsx")  # TODO: Change name.
         return render_template("admin_judge_setup.html",
                                title="File Upload",
                                submitted=True)
