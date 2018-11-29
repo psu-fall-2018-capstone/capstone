@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, request
+from capstone.helpers import is_admin
 
 admin_api = Blueprint("admin", __name__)
 
+@admin_api.before_request
+@is_admin
+def before_request():
+    """protects all admin endpoints"""
+    pass
 
 @admin_api.route("/", methods=["GET", "POST"])
 @admin_api.route("/dashboard", methods=["GET", "POST"])

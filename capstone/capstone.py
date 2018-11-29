@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, redirect, url_for, session
+import sqlite3 as sql
 from capstone.admin import admin_api
 from capstone.judge import judge_api
-import sqlite3 as sql
 
 app = Flask(__name__)
 app.secret_key = 'test'
@@ -10,20 +10,18 @@ app.secret_key = 'test'
 app.register_blueprint(admin_api, url_prefix="/admin")
 app.register_blueprint(judge_api, url_prefix="/judge")
 
-conn = sql.connect("database.db")
-cur = conn.cursor()
-cur.execute("DROP TABLE IF EXISTS users")
-cur.execute('''CREATE TABLE users 
-    (username TEXT NOT NULL, 
-     password TEXT NOT NULL)''')
-cur.execute("INSERT INTO users VALUES (?,?)", ("admin", "password"))
-conn.commit()
-conn.close()
 
-
-# @app.route("/", methods=["GET", "POST"])
-# def hello():
-#     return "Hello world!"
+@app.before_first_request
+def init_db():
+    conn = sql.connect("database.db")
+    cur = conn.cursor()
+    cur.execute("DROP TABLE IF EXISTS users")
+    cur.execute('''CREATE TABLE users 
+        (username TEXT NOT NULL, 
+         password TEXT NOT NULL)''')
+    cur.execute("INSERT INTO users VALUES (?,?)", ("admin", "password"))
+    conn.commit()
+    conn.close()
 
 
 @app.route("/")
