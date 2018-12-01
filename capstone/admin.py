@@ -1,14 +1,23 @@
 # -*- coding: utf-8 -*-
+import os
 from flask import Blueprint, render_template, request
-from capstone.helpers import required_access_level
+from werkzeug.utils import secure_filename
+from capstone.utils import required_access_level
+from capstone.capstone import app
 
 admin_api = Blueprint("admin", __name__)
+
+UPLOAD_FOLDER = "uploads/"
+ALLOWED_EXTENSIONS = set(["xlsx"])
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
 
 @admin_api.before_request
 @required_access_level(2)
 def before_request():
     """protects all admin endpoints"""
     pass
+    
 
 @admin_api.route("/", methods=["GET", "POST"])
 @admin_api.route("/dashboard", methods=["GET", "POST"])
@@ -16,14 +25,27 @@ def dashboard():
     return render_template("admin_dashboard.html", title="Admin Dashboard")
 
 
+def allowed_file(filename):
+    return '.' in filename and \
+            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 @admin_api.route("/judge_setup", methods=["GET", "POST"])
 def judge_setup():  # this page does the file upload
     if request.method == 'POST':
-        table = request.files["myFile"]  # TODO: Check type.
-        table.save("table.xlsx")  # TODO: Change name.
-        return render_template("admin_judge_setup.html",
-                               title="File Upload",
-                               submitted=True)
+        file = request.files["myFile"]
+
+        if file.filename == '':
+            return "no file selected"
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
+            return render_template("admin_judge_setup.html",
+                                   title="File Upload",
+                                   submitted=True)
+        else:
+            return "upload failed"
     else:
         return render_template("admin_judge_setup.html",
                                title="File Upload",
