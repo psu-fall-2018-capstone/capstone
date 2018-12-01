@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, request
-from capstone.helpers import is_admin
+from capstone.helpers import required_access_level
 
 admin_api = Blueprint("admin", __name__)
 
 @admin_api.before_request
-@is_admin
+@required_access_level(2)
 def before_request():
     """protects all admin endpoints"""
     pass

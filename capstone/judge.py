@@ -1,8 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask import Blueprint, render_template, request
+from capstone.helpers import required_access_level
 
 judge_api = Blueprint("judge", __name__)
 
+@judge_api.before_request
+@required_access_level(1)
+def before_request():
+    """protects all judge endpoints"""
+    pass
 
 @judge_api.route("/", methods=["GET", "POST"])
 @judge_api.route("/dashboard", methods=["GET", "POST"])
