@@ -7,7 +7,7 @@ from capstone.utils import required_access_level
 admin_api = Blueprint("admin", __name__)
 
 ALLOWED_EXTENSIONS = set(["xlsx"])
-
+UPLOAD_FOLDER = "uploads/"
 
 @admin_api.before_request
 @required_access_level(2)
@@ -36,11 +36,12 @@ def judge_setup():  # this page does the file upload
             return "no file selected"
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(filename)  # save to specific folder
+            file.save(os.path.join(UPLOAD_FOLDER, filename))  # save to specific folder
 
             return render_template("admin_judge_setup.html",
                                    title="File Upload",
-                                   submitted=True)
+                                   submitted=True,
+                                   fileName=filename)
         else:
             return "upload failed"
     else:
