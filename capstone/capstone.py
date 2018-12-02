@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from flask import Flask, render_template, request, redirect, url_for, session
-import sqlite3 as sql
+from capstone.admin import admin_api
+from capstone.judge import judge_api
 import capstone.utils as helper
 
 app = Flask(__name__)
 app.secret_key = 'test'
 
-from capstone.admin import admin_api
-from capstone.judge import judge_api
+app.config["UPLOAD_FOLDER"] = "uploads/"
+
 app.register_blueprint(admin_api, url_prefix="/admin")
 app.register_blueprint(judge_api, url_prefix="/judge")
 
@@ -49,9 +50,8 @@ def login():
         return render_template("login.html")
     return redirect(url_for("home"))
 
-    
+
 @app.route("/logout")
 def logout():
     session.pop("user", None)
     return redirect(url_for("home"))
-

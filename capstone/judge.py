@@ -4,6 +4,7 @@ from capstone.utils import required_access_level
 
 judge_api = Blueprint("judge", __name__)
 
+
 @judge_api.before_request
 @required_access_level(1)
 def before_request():

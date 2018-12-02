@@ -3,16 +3,15 @@ from functools import wraps
 from flask import session
 import sqlite3 as sql
 
-#######################################
-### Database functions
-#######################################
+
+# database functions
 
 def init_db():
     conn = sql.connect("database.db")
     cur = conn.cursor()
     cur.execute("DROP TABLE IF EXISTS users")
-    cur.execute('''CREATE TABLE users 
-        (username TEXT NOT NULL, 
+    cur.execute('''CREATE TABLE users
+        (username TEXT NOT NULL,
          password TEXT NOT NULL,
          access_level integer NOT NULL)''')
     cur.execute("INSERT INTO users VALUES (?,?,?)", ("admin", "password", 2))
@@ -29,9 +28,8 @@ def get_user_access_level(username):
 
     return access_level[0]
 
-#######################################
-### other
-#######################################
+
+# other
 
 def validate(username, password):
     conn = sql.connect("database.db")

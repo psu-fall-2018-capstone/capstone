@@ -3,13 +3,10 @@ import os
 from flask import Blueprint, render_template, request
 from werkzeug.utils import secure_filename
 from capstone.utils import required_access_level
-from capstone.capstone import app
 
 admin_api = Blueprint("admin", __name__)
 
-UPLOAD_FOLDER = "uploads/"
 ALLOWED_EXTENSIONS = set(["xlsx"])
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
 @admin_api.before_request
@@ -17,7 +14,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 def before_request():
     """protects all admin endpoints"""
     pass
-    
+
 
 @admin_api.route("/", methods=["GET", "POST"])
 @admin_api.route("/dashboard", methods=["GET", "POST"])
@@ -39,7 +36,7 @@ def judge_setup():  # this page does the file upload
             return "no file selected"
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+            file.save(filename)  # save to specific folder
 
             return render_template("admin_judge_setup.html",
                                    title="File Upload",
