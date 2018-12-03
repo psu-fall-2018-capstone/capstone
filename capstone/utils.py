@@ -9,16 +9,53 @@ import sqlite3 as sql
 def init_db():
     conn = sql.connect("database.db")
     cur = conn.cursor()
-    cur.execute("DROP TABLE IF EXISTS users")
-    cur.execute('''CREATE TABLE users
+
+    # table for users
+    cur.execute("""CREATE TABLE IF NOT EXISTS users
         (username TEXT NOT NULL,
          password TEXT NOT NULL,
-         access_level integer NOT NULL)''')
+         access_level integer NOT NULL)""")
     cur.execute("INSERT INTO users VALUES (?,?,?)", ("admin", "password", 2))
+    cur.execute("INSERT INTO users VALUES (?,?,?)", ("judge1", "password", 1))
+
+    # table for list of projects 
+    # projects are seperated by ","
+    cur.execute("""CREATE TABLE IF NOT EXISTS judge_projects
+        (judge TEXT NOT NULL,
+         projects TEXT NOT NULL)""")
+
+    # table for project scoring
+    # scores are sepearted by ","
+    cur.execute("""CREATE TABLE IF NOT EXISTS project_scores
+        (judge TEXT NOT NULL,
+         project TEXT NOT NULL,
+         scores TEXT NOT NULL)""")
+
     conn.commit()
     conn.close()
 
+def drop_table(table):
+    conn = sql.connect("database.db")
+    cur = conn.cursor()
+    cur.execute("DROP TABLE IF EXISTS (?)", table)
+    cur.commit()
+    conn.close()
 
+# get project list for judge by username
+def get_projects_for_judge(judge):
+    conn = sql.connect("database.db")
+    cur = conn.cursor()
+    cur.execute("SELECT projects FROM judge_projects WHERE judge=?", (judge,))
+    projects = cur.fetchone()
+    conn.close()
+
+    if projects:
+        return projects[0]
+    else:
+        return []
+    
+
+# get access_level for account
 def get_user_access_level(username):
     conn = sql.connect("database.db")
     cur = conn.cursor()
@@ -50,7 +87,7 @@ def required_access_level(access_level):
         @wraps(f)
         def wrap(*args, **kwargs):
             if "user" in session:
-                level = get_user_access_level(session["user"])
+                level = get_user_access_level(session["username"])
 
                 if level == access_level:
                     return f(*args, **kwargs)

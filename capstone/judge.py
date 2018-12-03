@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint, render_template, request
-from capstone.utils import required_access_level
+from flask import Blueprint, render_template, request, session
+import capstone.utils as utils
 
 judge_api = Blueprint("judge", __name__)
 
 
 @judge_api.before_request
-@required_access_level(1)
+@utils.required_access_level(1)
 def before_request():
     """protects all judge endpoints"""
     pass
@@ -15,17 +15,8 @@ def before_request():
 @judge_api.route("/", methods=["GET", "POST"])
 @judge_api.route("/dashboard", methods=["GET", "POST"])
 def judge_voting_dashboard():
-    judgeProjectList = ["Project1",
-                        "Project2",
-                        "Project3",
-                        "Project4",
-                        "Project5"]
-    if request.method == 'POST':
-        judgeProjectSelection = request.form['projectSelection']
-        print(judgeProjectSelection)
-        return render_template("judge_project_voting.html",
-                               title="Judge Project voting",
-                               projectSelection=judgeProjectSelection)
+    judgeProjectList = utils.get_projects_for_judge(session["username"])
+
     return render_template("judge_voting_dashboard.html",
                            title="Judge Voting Dashboard",
                            judgeProjectArray=judgeProjectList)

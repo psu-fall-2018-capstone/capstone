@@ -21,12 +21,12 @@ def initialize():
 @app.route("/")
 @app.route("/home")
 def home():
-    if "user" in session:
-        access_level = helper.get_user_access_level(session["user"])
+    if "username" in session:
+        access_level = helper.get_user_access_level(session["username"])
         if access_level == 2:
             return redirect(url_for("admin.dashboard"))
         elif access_level == 1:
-            return redirect(url_for("judge.dashboard"))
+            return redirect(url_for("judge.judge_voting_dashboard"))
 
         return "not a user"
 
@@ -35,7 +35,7 @@ def home():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if "user" not in session:
+    if "username" not in session:
         if request.method == "POST":
             username = request.form["username"]
             password = request.form["password"]
@@ -43,7 +43,7 @@ def login():
             check = helper.validate(username, password)
 
             if check:
-                session["user"] = username
+                session["username"] = username
                 return redirect(url_for("home"))
             else:
                 return "wrong password"
@@ -53,5 +53,5 @@ def login():
 
 @app.route("/logout")
 def logout():
-    session.pop("user", None)
+    session.pop("username", None)
     return redirect(url_for("home"))
