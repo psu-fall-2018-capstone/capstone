@@ -73,7 +73,7 @@ def get_user_access_level(username):
     df = get_table("users")
 
     if not df.empty:
-        return df[df["username"] == username].iloc[0]["access_level"]
+        return df[df["username"] == username]["access_level"].item()
     else:
         return None
 
@@ -84,8 +84,7 @@ def validate(username, password):
     df = get_table("users")
 
     if not df.empty:
-        return (df[df["username"] == username].iloc[0]["password"] ==
-                password)
+        return (df[df["username"] == username]["password"].item() == password)
     else:
         return False
 
