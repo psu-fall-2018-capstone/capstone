@@ -73,7 +73,7 @@ def get_user_access_level(username):
     df = get_table("users")
 
     if not df.empty:
-        return df[df["username"] == username]["access_level"].get_value(0)
+        return df[df["username"] == username].iloc[0]["access_level"]
     else:
         return None
 
@@ -84,7 +84,7 @@ def validate(username, password):
     df = get_table("users")
 
     if not df.empty:
-        return (df[df["username"] == username]["password"].get_value(0) ==
+        return (df[df["username"] == username].iloc[0]["password"] ==
                 password)
     else:
         return False
@@ -94,7 +94,7 @@ def required_access_level(access_level):
     def decorator(f):
         @wraps(f)
         def wrap(*args, **kwargs):
-            if "user" in session:
+            if "username" in session:
                 level = get_user_access_level(session["username"])
 
                 if level == access_level:
