@@ -4,10 +4,20 @@ from flask import session
 import pandas as pd
 import sqlite3 as sql
 
-DB_NAME = "database.db"
+
+# file handling
+ALLOWED_EXTENSIONS = set(["xlsx"])
+UPLOAD_FOLDER = "uploads/"
+
+
+def allowed_file(filename):
+    return any(filename.lower().endswith("." + ext.lower())
+               for ext in ALLOWED_EXTENSIONS)
 
 
 # database functions
+DB_NAME = "database.db"
+
 
 def init_db():
     conn = sql.connect(DB_NAME)
@@ -79,8 +89,7 @@ def get_user_access_level(username):
         return None
 
 
-# other
-
+# authentication
 def validate(username, password):
     df = get_table("users")
 
