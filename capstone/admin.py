@@ -104,6 +104,59 @@ def judge_add():
                             numJudges=judge_Num,
                             sponsorArray=sponsorArrayList)
 
+#the page for selecting which projects should be judged based on their poster
+@admin_api.route("/poster_project_select", methods=["GET", "POST"])
+def poster_project_select():
+    #this needs to be populated dynamically
+    projectArrayList = ["project1",
+                        "project2",
+                        "project3",]
+
+    numProjectsToJudge = 0
+    stage = 0 #stage 0: input num projects | stage 1: select Projects to be judged
+    selectedProjectsArrayList = [] #fill this in the POST
+
+    if request.method == 'POST':
+        stage=int(request.form['stage'])
+        if stage == 0:
+            numProjectsToJudge = int(request.form['proj_num'])
+            return render_template("/admin_poster_project_select.html", title="Poster Project Select",
+                           numProjects=numProjectsToJudge,
+                           projectArray=projectArrayList)
+        else:
+            #TODO: fill the selectedProjectsArrayList with whatever was selected
+            return "Projects selected successfully!"
+    return render_template("/admin_poster_project_select.html", title="Poster Project Select",
+                           numProjects=numProjectsToJudge,
+                           projectArray=projectArrayList)
+
+#the page for selecting which projects should be judged based on their technical nature
+@admin_api.route("/technical_project_select", methods=["GET", "POST"])
+def technical_project_select():
+    #this needs to be populated dynamically
+    projectArrayList = ["project1",
+                        "project2",
+                        "project3",]
+
+    numProjectsToJudge = 0
+    stage = 0 #stage 0: input num projects | stage 1: select Projects to be judged
+    selectedProjectsArrayList = [] #fill this in the POST
+
+    if request.method == 'POST':
+        stage=int(request.form['stage'])
+        if stage == 0:
+            numProjectsToJudge = int(request.form['proj_num'])
+            return render_template("/admin_technical_project_select.html", title="Technical Project Select",
+                           numProjects=numProjectsToJudge,
+                           projectArray=projectArrayList)
+        else:
+            #TODO: fill the selectedProjectsArrayList with whatever was selected
+            return "Projects selected successfully!"
+    return render_template("/admin_technical_project_select.html", title="Technical Project Select",
+                           numProjects=numProjectsToJudge,
+                           projectArray=projectArrayList)
+    
+
 @admin_api.route("/tracking", methods=["GET", "POST"])
 def tracking():
     return render_template("admin_tracking.html", title="Admin Tracking")

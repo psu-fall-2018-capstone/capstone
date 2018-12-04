@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+
+	{% include 'header.html' %}
+
+	<body>
+		{% if numProjects == 0 %}
+				<h1>Enter number of projects to judge: </h1>
+				<form method = "POST">
+					<input type="hidden" name="stage" value=0>
+				 	<input type="text" name="proj_num"><br>
+				  	<input type="submit" value="Submit">
+				</form>
+		{% else %}
+			<form method = "POST">
+				<input type="hidden" name="stage" value=1>
+				{% for x in range(0, numProjects) %}
+					Select Project {{x+1}}:
+					<select>
+						{% for i in projectArray %}
+							<option value={{ loop.index0 }}>{{ i|e }}</option>
+						{% endfor %}
+					</select><br><br>
+				{% endfor %}
+				<input type="submit" value="Submit">
+			</form>
+		{% endif %}
+	</body>
+
+</html>
