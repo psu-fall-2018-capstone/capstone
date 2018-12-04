@@ -9,6 +9,7 @@ admin_api = Blueprint("admin", __name__)
 ALLOWED_EXTENSIONS = set(["xlsx"])
 UPLOAD_FOLDER = "uploads/"
 
+
 @admin_api.before_request
 @required_access_level(2)
 def before_request():
@@ -23,23 +24,21 @@ def dashboard():
 
 
 def allowed_file(filename):
-    return '.' in filename and \
-            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and \
+            filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @admin_api.route("/judge_setup", methods=["GET", "POST"])
 def judge_setup():  # this page does the file upload
-    print("test")
-    if request.method == 'POST':
-        print("testddd")
+    if request.method == "POST":
         file = request.files["myFile"]
 
-        if file.filename == '':
+        if file.filename == "":
             return "no file selected"
+
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(UPLOAD_FOLDER, filename))  # save to specific folder
-
+            file.save(os.path.join(UPLOAD_FOLDER, filename))
             return render_template("admin_judge_setup.html",
                                    title="File Upload",
                                    submitted=True,
@@ -61,8 +60,8 @@ def judge_assignment():
     projectArrayList = ["CapstoneRedesign",
                         "AnotherProject",
                         "AnotherProject2"]
-    if request.method == 'POST':
-        #exclusions = request.form["exclusions"] this does nothing right now
+    if request.method == "POST":
+        # exclusions = request.form["exclusions"] this does nothing right now
         return render_template("admin_judge_assignment.html",
                                title="Judge Assignment",
                                numExclusions=exclusions,
@@ -80,82 +79,91 @@ def judge_assignment():
 def results():
     return render_template("admin_results.html", title="Admin Results")
 
+
 @admin_api.route("/judge_add", methods=["GET", "POST"])
 def judge_add():
-    print("workingdd")
     displayJudgeBoxes = False
     judge_Num = 0
-    #this array needs to be populated dynamically
-    sponsorArrayList = ["sponsor1", 
+    # this array needs to be populated dynamically
+    sponsorArrayList = ["sponsor1",
                         "sponsor2",
                         "sponsor3"]
-    if request.method == 'POST':
-        print("working!")
+    if request.method == "POST":
         displayJudgeBoxes = True
-        judge_Num = int(request.form['judgenum'])
-        print("\nNum judges: ",judge_Num)
+        judge_Num = int(request.form["judgenum"])
+        print("Num judges: ", judge_Num)
         return render_template("/admin_judge_add.html", title="Add Judges",
-                                displayBoxes=displayJudgeBoxes,
-                                numJudges=judge_Num,
-                                sponsorArray=sponsorArrayList)
-    
-    return render_template("/admin_judge_add.html", title="Add Judges",
-                            displayBoxes=displayJudgeBoxes,
-                            numJudges=judge_Num,
-                            sponsorArray=sponsorArrayList)
+                               displayBoxes=displayJudgeBoxes,
+                               numJudges=judge_Num,
+                               sponsorArray=sponsorArrayList)
 
-#the page for selecting which projects should be judged based on their poster
+    return render_template("/admin_judge_add.html", title="Add Judges",
+                           displayBoxes=displayJudgeBoxes,
+                           numJudges=judge_Num,
+                           sponsorArray=sponsorArrayList)
+
+
+# page for selecting which projects should be judged based on their poster
 @admin_api.route("/poster_project_select", methods=["GET", "POST"])
 def poster_project_select():
-    #this needs to be populated dynamically
+    # this needs to be populated dynamically
     projectArrayList = ["project1",
                         "project2",
-                        "project3",]
+                        "project3"]
 
     numProjectsToJudge = 0
-    stage = 0 #stage 0: input num projects | stage 1: select Projects to be judged
-    selectedProjectsArrayList = [] #fill this in the POST
+    stage = 0
+    # stage 0: input num projects | stage 1: select Projects to be judged
 
-    if request.method == 'POST':
-        stage=int(request.form['stage'])
+    selectedProjectsArrayList = [] # fill this in the POST
+
+    if request.method == "POST":
+        stage = int(request.form["stage"])
         if stage == 0:
-            numProjectsToJudge = int(request.form['proj_num'])
-            return render_template("/admin_poster_project_select.html", title="Poster Project Select",
-                           numProjects=numProjectsToJudge,
-                           projectArray=projectArrayList)
+            numProjectsToJudge = int(request.form["proj_num"])
+            return render_template("/admin_poster_project_select.html",
+                                   title="Poster Project Select",
+                                   numProjects=numProjectsToJudge,
+                                   projectArray=projectArrayList)
         else:
-            #TODO: fill the selectedProjectsArrayList with whatever was selected
+            # TODO: fill the selectedProjectsArrayList with selection
             return "Projects selected successfully!"
-    return render_template("/admin_poster_project_select.html", title="Poster Project Select",
+    return render_template("/admin_poster_project_select.html",
+                           title="Poster Project Select",
                            numProjects=numProjectsToJudge,
                            projectArray=projectArrayList)
 
-#the page for selecting which projects should be judged based on their technical nature
+
+# page for selecting projects for contest
 @admin_api.route("/technical_project_select", methods=["GET", "POST"])
 def technical_project_select():
-    #this needs to be populated dynamically
+    # this needs to be populated dynamically
     projectArrayList = ["project1",
                         "project2",
-                        "project3",]
+                        "project3"]
 
     numProjectsToJudge = 0
-    stage = 0 #stage 0: input num projects | stage 1: select Projects to be judged
-    selectedProjectsArrayList = [] #fill this in the POST
+    stage = 0
+    # stage 0: input num projects | stage 1: select Projects to be judged
 
-    if request.method == 'POST':
-        stage=int(request.form['stage'])
+    selectedProjectsArrayList = [] # fill this in the POST
+
+    if request.method == "POST":
+        stage = int(request.form["stage"])
         if stage == 0:
-            numProjectsToJudge = int(request.form['proj_num'])
-            return render_template("/admin_technical_project_select.html", title="Technical Project Select",
-                           numProjects=numProjectsToJudge,
-                           projectArray=projectArrayList)
+            numProjectsToJudge = int(request.form["proj_num"])
+            return render_template("/admin_technical_project_select.html",
+                                   title="Technical Project Select",
+                                   numProjects=numProjectsToJudge,
+                                   projectArray=projectArrayList)
         else:
-            #TODO: fill the selectedProjectsArrayList with whatever was selected
+            # TODO: fill the selectedProjectsArrayList with selection
             return "Projects selected successfully!"
-    return render_template("/admin_technical_project_select.html", title="Technical Project Select",
+    return render_template("/admin_technical_project_select.html",
+                           title="Technical Project Select",
                            numProjects=numProjectsToJudge,
                            projectArray=projectArrayList)
-    
+
 
 @admin_api.route("/tracking", methods=["GET", "POST"])
 def tracking():
