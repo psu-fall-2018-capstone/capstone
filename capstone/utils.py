@@ -59,6 +59,7 @@ def get_table(table):
     return pd.DataFrame(cur.fetchall(), columns=cols)
 
 
+# get the list of projects for judge
 def get_projects_for_judge(judge):
     df = get_table("judge_projects")
 

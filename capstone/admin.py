@@ -60,7 +60,7 @@ def judge_assignment():
                         "AnotherProject",
                         "AnotherProject2"]
     if request.method == 'POST':
-        exclusions = request.form['exclusions']
+        #exclusions = request.form["exclusions"] this does nothing right now
         return render_template("admin_judge_assignment.html",
                                title="Judge Assignment",
                                numExclusions=exclusions,
