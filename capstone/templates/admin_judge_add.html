@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+
+	{% include 'header.html' %}
+
+	<body>
+
+		{% if displayBoxes == False %}
+		<h1>Enter number of judges: </h1>
+		<form method = "POST">
+
+		  <input type="text" name="judgenum"><br>
+		  <input type="submit" value="Submit">
+		</form>
+		{% endif %}
+
+
+		{% if displayBoxes == True %}
+			<form method = "POST">
+			{% for x in range(0, numJudges) %}
+					Judge User Name:
+					<input type="text" name="judgeusername{{x}}">
+					<select>
+						{% for i in sponsorArray %}
+								<option value={{ loop.index0 }}>{{ i|e }}</option>
+						{% endfor %}
+					</select>
+					Judge Name:
+					<input type="text" name="judgename{{x}}"><br><br>
+			{% endfor %}
+			<input type="submit" value="Submit">
+			</form>
+		{% endif %}
+
+	</body>
+
+</html>

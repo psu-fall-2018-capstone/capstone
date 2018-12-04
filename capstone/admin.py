@@ -29,7 +29,9 @@ def allowed_file(filename):
 
 @admin_api.route("/judge_setup", methods=["GET", "POST"])
 def judge_setup():  # this page does the file upload
+    print("test")
     if request.method == 'POST':
+        print("testddd")
         file = request.files["myFile"]
 
         if file.filename == '':
@@ -78,6 +80,29 @@ def judge_assignment():
 def results():
     return render_template("admin_results.html", title="Admin Results")
 
+@admin_api.route("/judge_add", methods=["GET", "POST"])
+def judge_add():
+    print("workingdd")
+    displayJudgeBoxes = False
+    judge_Num = 0
+    #this array needs to be populated dynamically
+    sponsorArrayList = ["sponsor1", 
+                        "sponsor2",
+                        "sponsor3"]
+    if request.method == 'POST':
+        print("working!")
+        displayJudgeBoxes = True
+        judge_Num = int(request.form['judgenum'])
+        print("\nNum judges: ",judge_Num)
+        return render_template("/admin_judge_add.html", title="Add Judges",
+                                displayBoxes=displayJudgeBoxes,
+                                numJudges=judge_Num,
+                                sponsorArray=sponsorArrayList)
+    
+    return render_template("/admin_judge_add.html", title="Add Judges",
+                            displayBoxes=displayJudgeBoxes,
+                            numJudges=judge_Num,
+                            sponsorArray=sponsorArrayList)
 
 @admin_api.route("/tracking", methods=["GET", "POST"])
 def tracking():
