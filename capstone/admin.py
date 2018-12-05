@@ -20,27 +20,27 @@ def dashboard():
     return render_template("admin_dashboard.html", title="Admin Dashboard")
 
 
-@admin_api.route("/judge_setup", methods=["GET", "POST"])
-def judge_setup():  # this page does the file upload
+@admin_api.route("/contest_setup", methods=["GET", "POST"])
+def contest_setup():
     if request.method == "POST":
-        file = request.files["myFile"]
+        if "contest-name" in request.form:
+            contest_name = request.form["contest-name"]
+            print(contest_name)
 
-        if file.filename == "":
-            return "no file selected"
+        if "contest-type" in request.form:
+            contest_type = request.form["contest-type"]
+            print(contest_type)
 
-        if file and utils.allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(utils.UPLOAD_FOLDER, filename))
-            return render_template("admin_judge_setup.html",
-                                   title="File Upload",
-                                   submitted=True,
-                                   fileName=filename)
-        else:
-            return "upload failed"
-    else:
-        return render_template("admin_judge_setup.html",
-                               title="File Upload",
-                               submitted=False)
+        if "contest-file" in request.files:
+            file = request.files["contest-file"]
+
+            if file and utils.allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(utils.UPLOAD_FOLDER, filename))
+
+    # TODO: only allow submission when all 3 inputs have been set
+    return render_template("admin_contest_setup.html",
+                           contest_types=utils.CONTEST_TYPES)
 
 
 @admin_api.route("/judge_assignment", methods=["GET", "POST"])

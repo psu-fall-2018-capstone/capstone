@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+{% include 'header.html' %}
+
+<body>
+    <form action="" method="POST" enctype="multipart/form-data">
+        <br>Contest name: <input type="text" name="contest-name"></br>
+		<br>Contest type: <select name="contest-type">
+			{% for x in contest_types %}
+				<option value={{ x|e }}>{{ x|e }}</option>
+			{% endfor %}
+		</select></br>
+		<br>Contest input file: <input type="file" name="contest-file"></br>
+        <br><input type="submit" value="submit"></br>
+    </form> 
+</body>

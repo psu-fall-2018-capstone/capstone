@@ -4,21 +4,22 @@ from flask import session
 import pandas as pd
 import sqlite3 as sql
 
-
-# file handling
+# constants
 ALLOWED_EXTENSIONS = set(["xlsx"])
 UPLOAD_FOLDER = "uploads/"
 
+DB_NAME = "database.db"
 
+CONTEST_TYPES = ("project", "poster", "popularity")
+
+
+# file handling
 def allowed_file(filename):
     return any(filename.lower().endswith("." + ext.lower())
                for ext in ALLOWED_EXTENSIONS)
 
 
 # database functions
-DB_NAME = "database.db"
-
-
 def init_db():
     conn = sql.connect(DB_NAME)
     cur = conn.cursor()
@@ -34,13 +35,13 @@ def init_db():
                 ("judge1", "password", 1))
 
     # table for list of projects
-    # projects are seperated by ","
+    # projects are separated by ","
     cur.execute("CREATE TABLE IF NOT EXISTS judge_projects"
                 "(judge TEXT NOT NULL,"
                 "projects TEXT NOT NULL)")
 
     # table for project scoring
-    # scores are sepearted by ","
+    # scores are separated by ","
     cur.execute("CREATE TABLE IF NOT EXISTS project_scores"
                 "(judge TEXT NOT NULL,"
                 "project TEXT NOT NULL,"
@@ -66,11 +67,15 @@ def get_table(table):
     cur.execute("SELECT * FROM " + table)
     cols = [c[0] for c in cur.description]
 
-    return pd.DataFrame(cur.fetchall(), columns=cols)
+    df = pd.DataFrame(cur.fetchall(), columns=cols)
+
+    conn.close()
+
+    return df
 
 
-# get the list of projects for judge
 def get_projects_for_judge(judge):
+    """Get a list of the projects assigned to judge."""
     df = get_table("judge_projects")
 
     if not df.empty:
@@ -79,7 +84,7 @@ def get_projects_for_judge(judge):
         return []
 
 
-# get access_level for account
+# authentication
 def get_user_access_level(username):
     df = get_table("users")
 
@@ -87,16 +92,6 @@ def get_user_access_level(username):
         return df[df["username"] == username]["access_level"].item()
     else:
         return None
-
-
-# authentication
-def validate(username, password):
-    df = get_table("users")
-
-    if not df.empty:
-        return (df[df["username"] == username]["password"].item() == password)
-    else:
-        return False
 
 
 def required_access_level(access_level):
@@ -114,3 +109,12 @@ def required_access_level(access_level):
                 return "not logged in"
         return wrap
     return decorator
+
+
+def validate(username, password):
+    df = get_table("users")
+
+    if not df.empty:
+        return (df[df["username"] == username]["password"].item() == password)
+    else:
+        return False
