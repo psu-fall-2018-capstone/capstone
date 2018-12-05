@@ -64,10 +64,14 @@ def init_db():
     # projects are separated by ","
     cur.execute("CREATE TABLE IF NOT EXISTS judges"
                 "(username TEXT NOT NULL UNIQUE,"
-                "contest",
+                "contest TEST NOT NULL,"
                 "company TEXT,"
                 "real_name TEXT,"
-                "projects TEXT)")
+                "projects TEXT,"
+                "UNIQUE(username, contest))")
+
+    cur.execute("INSERT OR IGNORE INTO judges VALUES (?,?,?,?,?)",
+                ("judge1", "contest1", "philsmart", "phil", "worst,best,ours"))
 
     # table for scores
     # scores are separated by ","
@@ -124,12 +128,18 @@ def get_table(table):
     return df
 
 
+def get_contest_for_judge(judge):
+    df = get_table("judges")
+
+    return df[df["username"] == judge]["contest"].item()
+
+
 def get_projects_for_judge(judge):
     """Get a list of the projects assigned to judge."""
     df = get_table("judges")
 
     if not df.empty:
-        return list(df[df["judge"] == judge]["projects"])
+        return df[df["username"] == judge]["projects"].item().split(",")
     else:
         return ["NONE"]
 

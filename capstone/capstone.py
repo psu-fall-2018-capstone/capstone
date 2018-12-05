@@ -25,13 +25,14 @@ def initialize():
 @app.route("/home")
 def home():
     if "username" in session:
-        access_level = utils.get_user_access_level(session["username"])
+        access_level = session["access_level"]
+
         if access_level == 2:
             return redirect(url_for("admin.dashboard"))
         elif access_level == 1:
             return redirect(url_for("judge.judge_voting_dashboard"))
-
-        return "not a user"
+        else:
+            return "not a user"
 
     return redirect(url_for("login"))
 
@@ -47,6 +48,13 @@ def login():
 
             if check:
                 session["username"] = username
+                session["access_level"] = utils.get_user_access_level(username)
+
+                if session["access_level"] == 1:
+                    print(utils.get_table("judges"))
+
+                    session["contest"] = utils.get_contest_for_judge(username)
+
                 return redirect(url_for("home"))
             else:
                 return "wrong password"
