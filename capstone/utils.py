@@ -42,29 +42,50 @@ def init_db():
                 "num_judges integer,"
                 "judges TEXT)")
 
-    # table for list of projects
-    # projects are separated by ","
-    cur.execute("CREATE TABLE IF NOT EXISTS judges"
-                "(username TEXT NOT NULL UNIQUE,"
-                "sponsor TEXT,"
-                "real_name TEXT,"
-                "projects TEXT)")
-
-    # table for project scoring
+    # table for scores
     # scores are separated by ","
     cur.execute("CREATE TABLE IF NOT EXISTS scores"
                 "(contest TEXT NOT NULL,"
                 "project TEXT NOT NULL,"
                 "judge TEXT NOT NULL,"
-                "scores TEXT NOT NULL),"
-                "UNIQUE(contest, project)")
+                "scores TEXT NOT NULL,"
+                "UNIQUE(contest, project))")
 
     conn.commit()
     conn.close()
 
 
-def create_projects_table():
-    pass
+def create_judges_table(contest_name):
+    conn = sql.connect(DB_NAME)
+    cur = conn.cursor()
+
+    cur.execute("CREATE TABLE IF NOT EXISTS judges" + str(contest_name) +
+                "(username TEXT NOT NULL UNIQUE,"
+                "company TEXT,"
+                "real_name TEXT,"
+                "projects TEXT)")
+
+    conn.commit()
+    conn.close()
+
+
+def create_projects_table(contest_name):
+    conn = sql.connect(DB_NAME)
+    cur = conn.cursor()
+
+    cur.execute("CREATE TABLE IF NOT EXISTS projects" + str(contest_name) +
+                "(id TEXT NOT NULL UNIQUE,"
+                "title TEXT NOT NULL UNIQUE,"
+                "company TEXT,"
+                "sponsor TEXT,"
+                "instructor TEXT,"
+                "course TEXT,"
+                "names TEXTL,"
+                "table TEXT,"
+                "judges TEXT)")
+
+    conn.commit()
+    conn.close()
 
 
 def drop_table(table):
