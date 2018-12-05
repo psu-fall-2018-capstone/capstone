@@ -25,11 +25,9 @@ def contest_setup():
     if request.method == "POST":
         if "contest-name" in request.form:
             contest_name = request.form["contest-name"]
-            print(contest_name)
 
         if "contest-type" in request.form:
             contest_type = request.form["contest-type"]
-            print(contest_type)
 
         if "contest-file" in request.files:
             file = request.files["contest-file"]
@@ -83,7 +81,6 @@ def judge_add():
     if request.method == "POST":
         displayJudgeBoxes = True
         judge_Num = int(request.form["judgenum"])
-        print("Num judges: ", judge_Num)
         return render_template("/admin_judge_add.html", title="Add Judges",
                                displayBoxes=displayJudgeBoxes,
                                numJudges=judge_Num,

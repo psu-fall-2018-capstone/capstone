@@ -51,8 +51,6 @@ def login():
                 session["access_level"] = utils.get_user_access_level(username)
 
                 if session["access_level"] == 1:
-                    print(utils.get_table("judges"))
-
                     session["contest"] = utils.get_contest_for_judge(username)
 
                 return redirect(url_for("home"))
