@@ -37,37 +37,14 @@ def poster_questions():
 
 # database functions
 def init_db():
-    # add test projects table
-    create_projects_table("contest1")
-
     conn = sql.connect(DB_NAME)
     cur = conn.cursor()
-
-    # add test case to projects table
-    cur.execute("INSERT OR IGNORE INTO projectscontest1 VALUES "
-                "(?,?,?,?,?,?,?,?,?)",
-                ("test1", "worst", "jinginllc", "mrjingin",
-                 "profjingin", "jg 115", "jin, gin", "JG 4", "judge1"))
-    cur.execute("INSERT OR IGNORE INTO projectscontest1 VALUES "
-                "(?,?,?,?,?,?,?,?,?)",
-                ("test2", "best", "jinginllc", "mrjingin",
-                 "profjingin", "jg 115", "jin, gin", "JG 4", "judge1"))
-    cur.execute("INSERT OR IGNORE INTO projectscontest1 VALUES "
-                "(?,?,?,?,?,?,?,?,?)",
-                ("test3", "ours", "jinginllc", "mrjingin",
-                 "profjingin", "jg 115", "jin, gin", "JG 4", "judge1"))
 
     # table for users
     cur.execute("CREATE TABLE IF NOT EXISTS users"
                 "(username TEXT NOT NULL UNIQUE,"
                 "password TEXT NOT NULL,"
                 "access_level integer NOT NULL)")
-
-    cur.execute("INSERT OR IGNORE INTO users VALUES (?,?,?)",
-                ("admin", "password", 2))
-
-    cur.execute("INSERT OR IGNORE INTO users VALUES (?,?,?)",
-                ("judge1", "password", 1))
 
     # table for contests
     cur.execute("CREATE TABLE IF NOT EXISTS contests"
@@ -87,10 +64,6 @@ def init_db():
                 "projects TEXT,"
                 "UNIQUE(username, contest))")
 
-    cur.execute("INSERT OR IGNORE INTO judges VALUES (?,?,?,?,?)",
-                ("judge1", "contest1", "philsmart", "phil",
-                 "test1,test2"))
-
     # table for scores
     # scores are separated by ","
     cur.execute("CREATE TABLE IF NOT EXISTS scores"
@@ -100,6 +73,68 @@ def init_db():
                 "scores TEXT NOT NULL,"
                 "UNIQUE(contest, project))")
 
+    conn.commit()
+    conn.close()
+
+    # add admin user
+    add_row_to_table("users", ("admin", "password", 2))
+
+    # add test data
+    # test row as dict
+    add_row_to_table("users", {"username": "judge1",
+                               "password": "password",
+                               "access_level": 1})
+
+    # test row as series
+    add_row_to_table("judges", {"username": "judge1",
+                                "contest": "contest1",
+                                "company": "philsmart",
+                                "real_name": "phil",
+                                "projects": "test1,test2"})
+
+    create_projects_table("contest1")
+
+    add_row_to_table("projectscontest1", ("test1", "worst",
+                                          "jinginllc", "mrjingin",
+                                          "profjingin", "jg 115",
+                                          "jin, gin", "JG 4",
+                                          "judge1"))
+
+    add_row_to_table("projectscontest1", ("test2", "best",
+                                          "jinginllc", "mrjingin",
+                                          "profjingin", "jg 115",
+                                          "jin, gin", "JG 4",
+                                          "judge1"))
+
+    add_row_to_table("projectscontest1", ("test3", "ours",
+                                          "jinginllc", "mrjingin",
+                                          "profjingin", "jg 115",
+                                          "jin, gin", "JG 4",
+                                          "judge1"))
+
+
+def add_row_to_table(table, row):
+    # XXX: do we really want "OR IGNORE" in the sql statements?
+
+    if isinstance(row, dict):  # convert dict to series
+        row = pd.Series(row)
+
+    if isinstance(row, pd.Series):  # handles dict and series
+        keys = row.keys()
+        vals = list(row)
+        exp = ("INSERT OR IGNORE INTO %s (%s) VALUES (%s)" %
+               (table,
+                ",".join(keys),
+                ",".join("?" * len(vals))))
+    else:  # intended for 1-d sequences
+        vals = list(row)
+        exp = ("INSERT OR IGNORE INTO %s VALUES (%s)" %
+               (table,
+                ",".join("?" * len(vals))))
+
+    conn = sql.connect(DB_NAME)
+    cur = conn.cursor()
+    cur.execute(exp, vals)
     conn.commit()
     conn.close()
 
