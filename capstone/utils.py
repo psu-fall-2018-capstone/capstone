@@ -45,8 +45,10 @@ def init_db():
                 "(username TEXT NOT NULL UNIQUE,"
                 "password TEXT NOT NULL,"
                 "access_level integer NOT NULL)")
+
     cur.execute("INSERT OR IGNORE INTO users VALUES (?,?,?)",
                 ("admin", "password", 2))
+
     cur.execute("INSERT OR IGNORE INTO users VALUES (?,?,?)",
                 ("judge1", "password", 1))
 
@@ -58,6 +60,15 @@ def init_db():
                 "num_judges integer,"
                 "judges TEXT)")
 
+    # table for judges
+    # projects are separated by ","
+    cur.execute("CREATE TABLE IF NOT EXISTS judges"
+                "(username TEXT NOT NULL UNIQUE,"
+                "contest",
+                "company TEXT,"
+                "real_name TEXT,"
+                "projects TEXT)")
+
     # table for scores
     # scores are separated by ","
     cur.execute("CREATE TABLE IF NOT EXISTS scores"
@@ -66,20 +77,6 @@ def init_db():
                 "judge TEXT NOT NULL,"
                 "scores TEXT NOT NULL,"
                 "UNIQUE(contest, project))")
-
-    conn.commit()
-    conn.close()
-
-
-def create_judges_table(contest_name):
-    conn = sql.connect(DB_NAME)
-    cur = conn.cursor()
-
-    cur.execute("CREATE TABLE IF NOT EXISTS judges" + str(contest_name) +
-                "(username TEXT NOT NULL UNIQUE,"
-                "company TEXT,"
-                "real_name TEXT,"
-                "projects TEXT)")
 
     conn.commit()
     conn.close()
