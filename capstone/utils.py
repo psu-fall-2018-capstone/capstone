@@ -37,8 +37,17 @@ def poster_questions():
 
 # database functions
 def init_db():
+    # add test projects table
+    create_projects_table("contest1")
+
     conn = sql.connect(DB_NAME)
     cur = conn.cursor()
+
+    # add test case to projects table
+    cur.execute("INSERT OR IGNORE INTO projectscontest1 VALUES "
+                "(?,?,?,?,?,?,?,?,?)",
+                ("ours", "jingintitle", "jinginllc", "mrjingin",
+                 "profjingin", "jg 115", "jin, gin", "JG 4", "judge1"))
 
     # table for users
     cur.execute("CREATE TABLE IF NOT EXISTS users"
@@ -90,15 +99,15 @@ def create_projects_table(contest_name):
     conn = sql.connect(DB_NAME)
     cur = conn.cursor()
 
-    cur.execute("CREATE TABLE IF NOT EXISTS projects" + str(contest_name) +
+    cur.execute("CREATE TABLE IF NOT EXISTS projects%s" % str(contest_name) +
                 "(id TEXT NOT NULL UNIQUE,"
                 "title TEXT NOT NULL UNIQUE,"
                 "company TEXT,"
                 "sponsor TEXT,"
                 "instructor TEXT,"
                 "course TEXT,"
-                "names TEXTL,"
-                "table TEXT,"
+                "students TEXT,"
+                "location TEXT,"
                 "judges TEXT)")
 
     conn.commit()
