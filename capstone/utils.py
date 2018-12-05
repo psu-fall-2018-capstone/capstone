@@ -46,15 +46,15 @@ def init_db():
     # add test case to projects table
     cur.execute("INSERT OR IGNORE INTO projectscontest1 VALUES "
                 "(?,?,?,?,?,?,?,?,?)",
-                ("ours", "test1", "jinginllc", "mrjingin",
+                ("test1", "worst", "jinginllc", "mrjingin",
                  "profjingin", "jg 115", "jin, gin", "JG 4", "judge1"))
     cur.execute("INSERT OR IGNORE INTO projectscontest1 VALUES "
                 "(?,?,?,?,?,?,?,?,?)",
-                ("best", "test2", "jinginllc", "mrjingin",
+                ("test2", "best", "jinginllc", "mrjingin",
                  "profjingin", "jg 115", "jin, gin", "JG 4", "judge1"))
     cur.execute("INSERT OR IGNORE INTO projectscontest1 VALUES "
                 "(?,?,?,?,?,?,?,?,?)",
-                ("worst", "test3", "jinginllc", "mrjingin",
+                ("test3", "ours", "jinginllc", "mrjingin",
                  "profjingin", "jg 115", "jin, gin", "JG 4", "judge1"))
 
     # table for users
@@ -88,7 +88,8 @@ def init_db():
                 "UNIQUE(username, contest))")
 
     cur.execute("INSERT OR IGNORE INTO judges VALUES (?,?,?,?,?)",
-                ("judge1", "contest1", "philsmart", "phil", "worst,best,ours"))
+                ("judge1", "contest1", "philsmart", "phil",
+                 "test1,test2"))
 
     # table for scores
     # scores are separated by ","

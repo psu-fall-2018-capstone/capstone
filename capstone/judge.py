@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from functools import reduce
 from flask import Blueprint, render_template, request, session
 import capstone.utils as utils
 
@@ -18,10 +19,13 @@ def judge_voting_dashboard():
     projects = utils.get_projects_for_judge(session["username"])
     proj_df = utils.get_table("projects" + session["contest"])
 
-    for proj in projects:
-        proj_df[proj_df["id"] == proj]  # filters proj_df to info
+    selection = proj_df["id"].copy()
+    selection[:] = False
 
-    projects = proj_df
+    for project in projects:
+        selection |= (proj_df["id"] == project)
+
+    projects = proj_df[selection]
 
     return render_template("judge_voting_dashboard.html",
                            title="Judge Voting Dashboard",
@@ -46,8 +50,6 @@ def judge_project_voting(project=None):
         for i in range(len(questions)):
             score = request.form.get("q" + str(i + 1), "*")
             scores += score + ", "
-
-        print(scores)
 
     return render_template("judge_project_voting.html",
                            title="Judge Project voting",
