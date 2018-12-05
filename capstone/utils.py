@@ -12,11 +12,27 @@ DB_NAME = "database.db"
 
 CONTEST_TYPES = ("project", "poster", "popularity")
 
+PROJECT_QUESTIONS_FILENAME = "questions_project.txt"
+POSTER_QUESTIONS_FILENAME = "questions_poster.txt"
+
 
 # file handling
 def allowed_file(filename):
     return any(filename.lower().endswith("." + ext.lower())
                for ext in ALLOWED_EXTENSIONS)
+
+
+# get questions
+def project_questions():
+    with open(PROJECT_QUESTIONS_FILENAME) as f:
+        questions = [q for q in f]
+    return questions
+
+
+def poster_questions():
+    with open(POSTER_QUESTIONS_FILENAME) as f:
+        questions = [q for q in f]
+    return questions
 
 
 # database functions

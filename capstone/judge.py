@@ -22,30 +22,6 @@ def judge_voting_dashboard():
                            judgeProjectArray=judgeProjectList)
 
 
-PROJECT_QUESTIONS = [
-    ("Did the team approach the problem in a way that is consistent with the "
-     "disciplinary expertise of its members?"),
-    ("Was appropriate modeling, analysis, and/or testing used to help identify"
-     " and refine solutions?"),
-    "Was the team creative in their solution and/or approach to the problem?",
-    ("Does the project solution directly address the customer's stated "
-     "objectives (is the solution appropriate)?"),
-    ("Does the project solution meet/exceed customer's expectations (is the "
-     "customer satisfied)?"),
-    ("Did the team demonstrate improvements in product/process quality or cost"
-     "/time savings?"),
-    ("Did the team acknowledge and stay within design constraints (e.g., "
-     "budget, schedule, cost)?"),
-    ("Did the oral presentation clearly convey the necessary background, "
-     "approach, results, and recommendations?"),
-    ("Did the team's display (poster, simulation, prototype, etc.) clearly "
-     "describe the technical project and solution?"),
-    ("Other noteworthy aspects not covered above that add value to the project"
-     " quality and/or completeness<br/>(e.g., level of difficulty of project, new "
-     "technology and/or innovative process or product, cool, etc.)?")
-]
-
-
 @judge_api.route("/voting", methods=["GET", "POST"])
 @judge_api.route("/voting/<project>", methods=["GET", "POST"])
 def judge_project_voting(project=None):
@@ -54,7 +30,7 @@ def judge_project_voting(project=None):
         if project is None:
             raise RuntimeError("you shouuldn't bEE hEEREEEEE !!!")
 
-    questions = PROJECT_QUESTIONS
+    questions = utils.project_questions()
 
     # gets the scores from each question and saves to a string
     # TODO: save to session or database
