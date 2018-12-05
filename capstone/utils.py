@@ -46,7 +46,15 @@ def init_db():
     # add test case to projects table
     cur.execute("INSERT OR IGNORE INTO projectscontest1 VALUES "
                 "(?,?,?,?,?,?,?,?,?)",
-                ("ours", "jingintitle", "jinginllc", "mrjingin",
+                ("ours", "test1", "jinginllc", "mrjingin",
+                 "profjingin", "jg 115", "jin, gin", "JG 4", "judge1"))
+    cur.execute("INSERT OR IGNORE INTO projectscontest1 VALUES "
+                "(?,?,?,?,?,?,?,?,?)",
+                ("best", "test2", "jinginllc", "mrjingin",
+                 "profjingin", "jg 115", "jin, gin", "JG 4", "judge1"))
+    cur.execute("INSERT OR IGNORE INTO projectscontest1 VALUES "
+                "(?,?,?,?,?,?,?,?,?)",
+                ("worst", "test3", "jinginllc", "mrjingin",
                  "profjingin", "jg 115", "jin, gin", "JG 4", "judge1"))
 
     # table for users

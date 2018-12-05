@@ -16,17 +16,16 @@ def before_request():
 @judge_api.route("/dashboard", methods=["GET", "POST"])
 def judge_voting_dashboard():
     projects = utils.get_projects_for_judge(session["username"])
-
     proj_df = utils.get_table("projects" + session["contest"])
 
     for proj in projects:
-        proj_df = proj_df[proj_df["id"] == proj]  # filters proj_df to info
+        proj_df[proj_df["id"] == proj]  # filters proj_df to info
 
-    projects = list(proj_df["title"])
+    projects = proj_df
 
     return render_template("judge_voting_dashboard.html",
                            title="Judge Voting Dashboard",
-                           judgeProjectArray=projects)
+                           judge_projects=projects)
 
 
 @judge_api.route("/voting", methods=["GET", "POST"])
