@@ -3,13 +3,15 @@
 {% include 'header.html' %}
 
 <body>
-	<h1>Dashboard</h1>
-	<ul>
-		<li><a href="judge_setup">File Upload (do this first)</a></li>
-		<li><a href="judge_assignment">Judge Assignment</a></li>
-		<li><a href="results">Generate Finished Results</a></li>
-		<li><a href="tracking">View Judge Progress</a></li>
-	</ul>
+    <h1>Dashboard</h1>
+    <ul>
+        <li><a href="{{ url_for("admin.contest_setup") }}">Contest Upload</a></li>
+        <li><a href="{{ url_for("admin.judge_assignment") }}">Judge Assignment</a></li>
+        <li><a href="{{ url_for("admin.results") }}">Generate Finished Results</a></li>
+        <li><a href="{{ url_for("admin.tracking") }}">View Judge Progress</a></li>
+    </ul>
+
+    <br><a href="/logout">Logout</a></br>
 </body>
 
 </html>

@@ -22,7 +22,7 @@ def judge_voting_dashboard():
                            judgeProjectArray=judgeProjectList)
 
 
-QUESTIONS = [
+PROJECT_QUESTIONS = [
     ("Did the team approach the problem in a way that is consistent with the "
      "disciplinary expertise of its members?"),
     ("Was appropriate modeling, analysis, and/or testing used to help identify"
@@ -41,7 +41,7 @@ QUESTIONS = [
     ("Did the team's display (poster, simulation, prototype, etc.) clearly "
      "describe the technical project and solution?"),
     ("Other noteworthy aspects not covered above that add value to the project"
-     " quality and/or completeness (e.g., level of difficulty of project, new "
+     " quality and/or completeness<br/>(e.g., level of difficulty of project, new "
      "technology and/or innovative process or product, cool, etc.)?")
 ]
 
@@ -54,7 +54,7 @@ def judge_project_voting(project=None):
         if project is None:
             raise RuntimeError("you shouuldn't bEE hEEREEEEE !!!")
 
-    questions = QUESTIONS
+    questions = PROJECT_QUESTIONS
 
     # gets the scores from each question and saves to a string
     # TODO: save to session or database

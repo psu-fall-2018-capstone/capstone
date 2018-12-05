@@ -21,32 +21,33 @@
                     <th class="tg-0pky">Score (5 is the greatest)</th>
                 </tr>
 
-                {% for i, questions in judgeQuestions.items() %}  
+                {% for questions in judgeQuestions %}  
                     <tr> 
                         {% autoescape false %}
-                            <td class="tg-0pky"> {{ i|string + ": " + questions }} </td>
+                            <td class="tg-0pky"> {{ loop.index|string + ": " + questions }} </td>
                         {% endautoescape %}
                         <td class="tg-0pky">
                             <label class="radio-inline">
-                                <input type="radio" name={{ "q" + i|string }} value="5">5
+                                <input type="radio" name={{ "q" + loop.index|string }} value="5" checked>5
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name={{ "q" + i|string }} value="4">4
+                                <input type="radio" name={{ "q" + loop.index|string }} value="4">4
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name={{ "q" + i|string }} value="3">3
+                                <input type="radio" name={{ "q" + loop.index|string }} value="3">3
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name={{ "q" + i|string }} value="2">2
+                                <input type="radio" name={{ "q" + loop.index|string }} value="2">2
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name={{ "q" + i|string }} value="1">1
+                                <input type="radio" name={{ "q" + loop.index|string }} value="1">1
                             </label>
                         </td>
                     </tr>
                 {% endfor %} 
             </table>
             <input type="submit" name="save">
+            <a href="{{ url_for("judge.judge_voting_dashboard") }}">back</a>
         </form>
 	</body>
 
