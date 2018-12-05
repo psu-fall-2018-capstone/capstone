@@ -34,21 +34,37 @@ def init_db():
     cur.execute("INSERT OR IGNORE INTO users VALUES (?,?,?)",
                 ("judge1", "password", 1))
 
+    # table for contests
+    cur.execute("CREATE TABLE IF NOT EXISTS contests"
+                "(name TEXT NOT NULL UNIQUE,"
+                "type TEXT NOT NULL,"
+                "filename TEXT NOT NULL,"
+                "num_judges integer,"
+                "judges TEXT)")
+
     # table for list of projects
     # projects are separated by ","
-    cur.execute("CREATE TABLE IF NOT EXISTS judge_projects"
-                "(judge TEXT NOT NULL,"
-                "projects TEXT NOT NULL)")
+    cur.execute("CREATE TABLE IF NOT EXISTS judges"
+                "(username TEXT NOT NULL UNIQUE,"
+                "sponsor TEXT,"
+                "real_name TEXT,"
+                "projects TEXT)")
 
     # table for project scoring
     # scores are separated by ","
-    cur.execute("CREATE TABLE IF NOT EXISTS project_scores"
-                "(judge TEXT NOT NULL,"
+    cur.execute("CREATE TABLE IF NOT EXISTS scores"
+                "(contest TEXT NOT NULL,"
                 "project TEXT NOT NULL,"
-                "scores TEXT NOT NULL)")
+                "judge TEXT NOT NULL,"
+                "scores TEXT NOT NULL),"
+                "UNIQUE(contest, project)")
 
     conn.commit()
     conn.close()
+
+
+def create_projects_table():
+    pass
 
 
 def drop_table(table):
@@ -76,12 +92,12 @@ def get_table(table):
 
 def get_projects_for_judge(judge):
     """Get a list of the projects assigned to judge."""
-    df = get_table("judge_projects")
+    df = get_table("judges")
 
     if not df.empty:
         return list(df[df["judge"] == judge]["projects"])
     else:
-        return []
+        return ["NONE"]
 
 
 # authentication
